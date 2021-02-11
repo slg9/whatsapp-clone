@@ -32,7 +32,7 @@ function Chat() {
       db.collection("rooms")
         .doc(roomID)
         .onSnapshot((snapshot) => {
-          setRoomName(snapshot.data().name);
+          setRoomName(snapshot.data() ? snapshot.data().name : null);
         });
 
       db.collection("rooms")
@@ -54,7 +54,6 @@ function Chat() {
 
   const handelSendMessage = (e) => {
     e.preventDefault();
-    console.log(message);
     setMessage("");
     db.collection("rooms")
       .doc(roomID)
@@ -65,62 +64,73 @@ function Chat() {
     setMessage(e.target.value);
   };
   return (
-    <div className="chat">
-      <div className="chat__header">
-        <Avatar src={avatar} />
-        <div className="chat__header__infos">
-          <h3>{roomName}</h3>
-          <p>
-            {messages.length > 0 ? "Last seen at "+new Date(
-              messages[messages.length - 1].data.timestamp?.toDate()
-            ).toLocaleString():"no messages"}
-          </p>
+    <>
+      {roomName !== null ? (
+        <div className="chat">
+          <div className="chat__header">
+            <Avatar src={avatar} />
+            <div className="chat__header__infos">
+              <h3>{roomName}</h3>
+              <p>
+                {messages.length > 0
+                  ? "Last seen at " +
+                    new Date(
+                      messages[messages.length - 1].data.timestamp?.toDate()
+                    ).toLocaleString()
+                  : "no messages"}
+              </p>
+            </div>
+            <div className="chat__header__right">
+              <IconButton>
+                <SearchOutlined />
+              </IconButton>
+              <IconButton>
+                <AttachFile />
+              </IconButton>
+              <IconButton>
+                <MoreVert />
+              </IconButton>
+            </div>
+          </div>
+          <div className="chat__body">
+            {messages.length > 0 &&
+              roomID != undefined &&
+              messages.map((message) => (
+                <Message
+                  key={message.id}
+                  messageName={message.data.name}
+                  messageContent={message.data.message}
+                  timestamp={new Date(
+                    message.data.timestamp?.toDate()
+                  ).toLocaleString()}
+                  isRecevier={message.data.name == user.displayName}
+                />
+              ))}
+          </div>
+          <div className="chat__footer">
+            <IconButton>
+              <InsertEmoticon />
+            </IconButton>
+            <form>
+              <input
+                onChange={handleWritingMessage}
+                type="text"
+                placeholder="Type a message"
+                value={message}
+              />
+              <button onClick={handelSendMessage} type="submit">
+                send
+              </button>
+            </form>
+            <IconButton>
+              <Mic />
+            </IconButton>
+          </div>
         </div>
-        <div className="chat__header__right">
-          <IconButton>
-            <SearchOutlined />
-          </IconButton>
-          <IconButton>
-            <AttachFile />
-          </IconButton>
-          <IconButton>
-            <MoreVert />
-          </IconButton>
-        </div>
-      </div>
-      <div className="chat__body">
-        {messages.length>0 && messages.map((message) => (
-          <Message
-            key={message.id}
-            messageName={message.data.name}
-            messageContent={message.data.message}
-            timestamp={new Date(
-              message.data.timestamp?.toDate()
-            ).toLocaleString()}
-            isRecevier={message.data.name == user.displayName}
-          />
-        ))}
-      </div>
-      <div className="chat__footer">
-        <IconButton>
-          <InsertEmoticon />
-        </IconButton>
-        <form>
-          <input
-            onChange={handleWritingMessage}
-            type="text"
-            placeholder="Type a message"
-            value={message}
-          />
-          <button onClick={handelSendMessage} type="submit">
-            send
-          </button>
-        </form>
-        <IconButton>
-          <Mic />
-        </IconButton>
-      </div>
-    </div>
+      ) : (
+        <div className="alert">This room does not exist</div>
+      )}
+    </>
   );
 }
 

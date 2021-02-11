@@ -58,3 +58,14 @@
 form > button{
     display: none;
 }
+.alert{
+    display: flex;
+    background-color: pink;
+    flex:1;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    font-weight: 800;
+    
+
+}
