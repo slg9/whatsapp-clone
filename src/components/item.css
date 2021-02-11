@@ -1,0 +1,39 @@
+.item{
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    padding: 20px;
+    border-bottom:0.2rem solid rgba(128, 128, 128, 0.116);
+    
+}
+
+.item:hover{
+    background-color: rgba(122, 143, 148, 0.418);
+}
+
+.item__infos{
+    margin-left: 15px;
+    flex:1;
+}
+
+.item__infos > h2{
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+.item__infos > p{
+    color: rgb(73, 72, 72);
+    font-size: x-small;
+}
+
+
+
+.item__right {
+    margin-left: 20px;
+    font-size: x-small;
+    color: rgb(146, 145, 145);
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}

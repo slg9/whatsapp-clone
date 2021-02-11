@@ -1,0 +1,31 @@
+.login{
+    width: 100vw;
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aquamarine;
+}
+
+.login__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 100px;
+    border-radius: 10px;
+    box-shadow:1px 1px 3px 2px rgba(11, 12, 11, 0.199);
+}
+
+.login__container > Button {
+    text-transform: inherit !important;
+    background-color: aquamarine;
+    color:black;
+}
+
+.login__text{
+    font-size: xx-large;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
